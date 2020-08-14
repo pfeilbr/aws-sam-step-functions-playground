@@ -14,7 +14,6 @@ Resources:
         States:
           Single State:
             Type: Pass
-
             Result: '{"success": true, "item": {"id": 0, "username": "johndoe"}}'
             ResultPath: "$.payload"
             End: true
