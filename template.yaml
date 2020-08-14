@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  vscode-sam-app
+
+  Sample SAM Template for vscode-sam-app
+
+Resources:
+  SimpleStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Definition:
+        StartAt: Single State
+        States:
+          Single State:
+            Type: Pass
+            End: true
+      Policies:
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        EBRule:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+                - "com.mycompany.myapp"

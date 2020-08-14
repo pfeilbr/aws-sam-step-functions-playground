@@ -1,0 +1,14 @@
+{
+    "Entries": [
+        {
+            "Time": "1970-01-01T00:00:00",
+            "Source": "com.mycompany.myapp",
+            "Resources": [
+                ""
+            ],
+            "DetailType": "event",
+            "Detail": "{\"key\": \"value\"}",
+            "EventBusName": "default"
+        }
+    ]
+}
