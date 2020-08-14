@@ -14,6 +14,9 @@ Resources:
         States:
           Single State:
             Type: Pass
+
+            Result: '{"success": true, "item": {"id": 0, "username": "johndoe"}}'
+            ResultPath: "$.payload"
             End: true
       Policies:
         - CloudWatchPutMetricPolicy: {}
@@ -24,3 +27,8 @@ Resources:
             Pattern:
               source:
                 - "com.mycompany.myapp"
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /start
+            Method: get
