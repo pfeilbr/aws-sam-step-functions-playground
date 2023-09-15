@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'vscode-sam-app
+
+  Sample SAM Template for vscode-sam-app
+
+  '
+Resources:
+  SimpleStateMachine:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Definition:
+        StartAt: Single State
+        States:
+          Single State:
+            Type: Pass
+            Result: '{"success": true, "item": {"id": 0, "username": "johndoe"}}'
+            ResultPath: $.payload
+            Next: TransformPayload
+          TransformPayload:
+            Type: Pass
+            Parameters:
+              payload.$: States.Format('Hello, {}!', $.payload.item.username)
+            ResultPath: $
+            End: true
+      Logging:
+        Destinations:
+        - CloudWatchLogsLogGroup:
+            LogGroupArn:
+              Fn::GetAtt:
+              - StateMachineLogGroup
+              - Arn
+        IncludeExecutionData: true
+        Level: ALL
+      Policies:
+      - CloudWatchPutMetricPolicy: {}
+      Events:
+        EBRule:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+              - com.mycompany.myapp
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /start
+            Method: get
+  StateMachineLogGroup:
+    Type: AWS::Logs::LogGroup
+Outputs:
+  ApiURL:
+    Description: API Gateway endpoint URL for Prod stage
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/start/
